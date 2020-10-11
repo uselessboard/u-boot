@@ -44,6 +44,7 @@ obj-$(CONFIG_MDIO_MUX_I2CREG) += mdio_mux_i2creg.o
 obj-$(CONFIG_MDIO_MUX_SANDBOX) += mdio_mux_sandbox.o
 obj-$(CONFIG_MPC8XX_FEC) += mpc8xx_fec.o
 obj-$(CONFIG_MT7628_ETH) += mt7628-eth.o
+obj-$(CONFIG_LS1B200_ETH) += ls1b200-eth.o
 obj-$(CONFIG_MVGBE) += mvgbe.o
 obj-$(CONFIG_MVMDIO) += mvmdio.o
 obj-$(CONFIG_MVNETA) += mvneta.o

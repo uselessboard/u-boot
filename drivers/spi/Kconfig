@@ -210,6 +210,14 @@ config MT7621_SPI
 	  the SPI NOR flash on platforms embedding this Ralink / MediaTek
 	  SPI core, like MT7621/7628/7688.
 
+config LS1B200_SPI
+	bool "Loongson LS1B200 SPI driver"
+	depends on SOC_LS1B200
+	help
+	  Enable the LS1B200 SPI driver. This driver can be used to access
+	  the SPI NOR flash on platforms embedding this Loongson
+	  SPI core, like LS1B200.
+
 config MTK_SNFI_SPI
 	bool "Mediatek SPI memory controller driver"
 	depends on SPI_MEM

@@ -127,6 +127,13 @@ config RESET_MTMIPS
 	help
 	  Support for reset controller on MediaTek MIPS platform.
 
+config RESET_LSMIPS
+	bool "Reset controller driver for Loongson MIPS platform"
+	depends on DM_RESET && ARCH_LSMIPS
+	default y
+	help
+	  Support for reset controller on Loongson MIPS platform.
+
 config RESET_SUNXI
 	bool "RESET support for Allwinner SoCs"
 	depends on DM_RESET && ARCH_SUNXI

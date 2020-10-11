@@ -407,6 +407,14 @@ config MT7628_ETH
 	  The MediaTek MT7628 ethernet interface is used on MT7628 and
 	  MT7688 based boards.
 
+config LS1B200_ETH
+	bool "Loongson LS1B200 Ethernet Interface"
+	depends on SOC_LS1B200
+	select PHYLIB
+	help
+	  The MediaTek MT7628 ethernet interface is used on MT7628 and
+	  MT7688 based boards.
+
 config PCH_GBE
 	bool "Intel Platform Controller Hub EG20T GMAC driver"
 	depends on DM_ETH && DM_PCI

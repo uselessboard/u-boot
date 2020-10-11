@@ -11,6 +11,7 @@ obj-$(CONFIG_ARCH_ASPEED) += aspeed/
 obj-$(CONFIG_ARCH_ATH79) += ath79/
 obj-$(CONFIG_PINCTRL_INTEL) += intel/
 obj-$(CONFIG_ARCH_MTMIPS) += mtmips/
+obj-$(CONFIG_ARCH_LSMIPS) += lsmips/
 obj-$(CONFIG_ARCH_RMOBILE) += renesas/
 obj-$(CONFIG_PINCTRL_SANDBOX)	+= pinctrl-sandbox.o
 

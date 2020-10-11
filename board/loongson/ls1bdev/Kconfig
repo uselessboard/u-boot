@@ -1,0 +1,12 @@
+if BOARD_LS1BDEV
+
+config SYS_BOARD
+	default "ls1bdev"
+
+config SYS_VENDOR
+	default "loongson"
+
+config SYS_CONFIG_NAME
+	default "ls1b200"
+
+endif

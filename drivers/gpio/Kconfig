@@ -478,6 +478,13 @@ config MT7621_GPIO
 	help
 	  Say yes here to support MediaTek MT7621 compatible GPIOs.
 
+config LS1B200_GPIO
+	bool "Loongson LS1B200 GPIO driver"
+	depends on DM_GPIO && SOC_LS1B200
+	default y
+	help
+	  Say yes here to support Loongson LS1B200 compatible GPIOs.
+
 config NX_GPIO
 	bool "Nexell GPIO driver"
 	depends on DM_GPIO

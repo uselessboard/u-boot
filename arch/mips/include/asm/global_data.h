@@ -30,6 +30,9 @@ struct arch_global_data {
 #ifdef CONFIG_ARCH_MTMIPS
 	unsigned long timer_freq;
 #endif
+#ifdef CONFIG_ARCH_LSMIPS
+	unsigned long timer_freq;
+#endif
 };
 
 #include <asm-generic/global_data.h>
