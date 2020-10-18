@@ -69,40 +69,23 @@ config BOARD_LS1BDEV
 	  SPI-NOR flash, 0 built-in switch with 5 ports, 12 UART, 1 USB host,
 	  1 SDXC, 1 PCIe socket and JTAG pins.
 
-config BOARD_GARDENA_SMART_GATEWAY_MT7688
-	bool "GARDENA smart Gateway"
-	depends on SOC_LS1B200
+config BOARD_LS1CDEV
+	bool "Loongson LS1CDEV RFB"
+	depends on SOC_LS1C250
 	select BOARD_LATE_INIT
 	help
 	  GARDENA smart Gateway boards have a MT7688 SoC with 128 MiB of RAM
 	  and 8 MiB of flash (SPI NOR) and additional SPI NAND storage.
 
-config BOARD_LINKIT_SMART_7688
-	bool "LinkIt Smart 7688"
-	depends on SOC_LS1B200
+config BOARD_PI2
+	bool "Loongson 2K pi"
+	depends on SOC_LS2K1000
 	help
 	  Seeed LinkIt Smart 7688 boards have a MT7688 SoC with 128 MiB of RAM
 	  and 32 MiB of flash (SPI).
 	  Between its different peripherals there's an integrated switch with 4
 	  ethernet ports, 1 USB port, 1 UART, GPIO buttons and LEDs, and
 	  a MT7688 (PCIe).
-
-config BOARD_MT7628_RFB
-	bool "MediaTek MT7628 RFB"
-	depends on SOC_LS1B200
-	help
-	  The reference design of MT7628. The board has 128 MiB DDR2, 8 MiB
-	  SPI-NOR flash, 1 built-in switch with 5 ports, 1 UART, 1 USB host,
-	  1 SDXC, 1 PCIe socket and JTAG pins.
-
-config BOARD_VOCORE2
-	bool "VoCore2"
-	depends on SOC_LS1B200
-	select SPL_SERIAL_SUPPORT
-	select SPL_UART2_SPIS_PINMUX
-	help
-	  VoCore VoCore2 board has a MT7628 SoC with 128 MiB of RAM
-	  and 16 MiB of flash (SPI).
 
 endchoice
 
