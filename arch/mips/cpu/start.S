@@ -26,6 +26,22 @@
 
 	.set noreorder
 
+	.macro serial_out c
+	.set push
+	li	t9, 0xB0000C00
+1:
+	lw	t8, 0x1C (t9)
+	and	t8, (1<<5)
+	beq	t8, zero, 1b
+	nop
+
+	move	t8, zero
+	or	t8, \c
+	sw	t8, 4 (t9)
+	nop
+	.set pop
+	.endm
+
 	.macro init_wr sel
 	MTC0	zero, CP0_WATCHLO,\sel
 	mtc0	t1, CP0_WATCHHI,\sel
@@ -123,6 +139,14 @@ ENTRY(_start)
 #endif
 
 reset:
+	serial_out '0'
+
+	li	a0, '1'
+	serial_out a0
+
+	jr	ra
+	nop
+
 #if __mips_isa_rev >= 6
 	mfc0	t0, CP0_CONFIG, 5
 	and	t0, t0, MIPS_CONF5_VP
