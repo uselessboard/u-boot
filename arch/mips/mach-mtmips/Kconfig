@@ -6,6 +6,7 @@ config SYS_MALLOC_F_LEN
 
 config SYS_SOC
 	default "mt7628" if SOC_MT7628
+	default "mt7620" if SOC_MT7620
 
 config SYS_DCACHE_SIZE
 	default 32768
@@ -56,6 +57,27 @@ config SOC_MT7628
 	help
 	  This supports MediaTek MT7628/MT7688.
 
+config SOC_MT7620
+	bool "MT7620"
+	select MIPS_L1_CACHE_SHIFT_5
+	select MIPS_INIT_STACK_IN_SRAM
+	select MIPS_SRAM_INIT
+	select SYS_MIPS_CACHE_INIT_RAM_LOAD
+	select PINCTRL_MT7620
+	select MTK_SERIAL
+	select SYSRESET_RESETCTL
+	select SPL_SEPARATE_BSS if SPL
+	select SPL_INIT_STACK_WITHOUT_MALLOC_F if SPL
+	select SPL_LOADER_SUPPORT if SPL
+	select SPL_OF_CONTROL if SPL_DM
+	select SPL_SIMPLE_BUS if SPL_DM
+	select SPL_DM_SERIAL if SPL_DM
+	select SPL_CLK if SPL_DM && SPL_SERIAL_SUPPORT
+	select SPL_SYSRESET if SPL_DM
+	select SPL_OF_LIBFDT if SPL_OF_CONTROL
+	help
+	  This supports MediaTek MT7620.
+
 endchoice
 
 choice
@@ -87,6 +109,14 @@ config BOARD_MT7628_RFB
 	  SPI-NOR flash, 1 built-in switch with 5 ports, 1 UART, 1 USB host,
 	  1 SDXC, 1 PCIe socket and JTAG pins.
 
+config BOARD_MT7620_RFB
+	bool "MediaTek MT7620 RFB"
+	depends on SOC_MT7620
+	help
+	  The reference design of MT7620. The board has 128 MiB DDR2, 32 MiB
+	  SPI-NOR flash, 1 built-in switch with 5 ports, 1 UART, 1 USB host,
+	  0 SDXC, 0 PCIe socket and JTAG pins.
+
 config BOARD_VOCORE2
 	bool "VoCore2"
 	depends on SOC_MT7628
@@ -95,6 +125,7 @@ config BOARD_VOCORE2
 	help
 	  VoCore VoCore2 board has a MT7628 SoC with 128 MiB of RAM
 	  and 16 MiB of flash (SPI).
+
 
 endchoice
 
@@ -108,6 +139,7 @@ config SPL_UART2_SPIS_PINMUX
 
 source "board/gardena/smart-gateway-mt7688/Kconfig"
 source "board/mediatek/mt7628/Kconfig"
+source "board/mediatek/mt7620/Kconfig"
 source "board/seeed/linkit-smart-7688/Kconfig"
 source "board/vocore/vocore2/Kconfig"
 
