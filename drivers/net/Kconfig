@@ -407,6 +407,14 @@ config MT7628_ETH
 	  The MediaTek MT7628 ethernet interface is used on MT7628 and
 	  MT7688 based boards.
 
+config MT7620_ETH
+	bool "MediaTek MT7620 Ethernet Interface"
+	depends on SOC_MT7620
+	select PHYLIB
+	help
+	  The MediaTek MT7628 ethernet interface is used on MT7628 and
+	  MT7688 based boards.
+
 config NET_OCTEONTX
 	bool "OcteonTX Ethernet support"
 	depends on ARCH_OCTEONTX
