@@ -144,8 +144,8 @@ reset:
 	li	a0, '1'
 	serial_out a0
 
-	jr	ra
-	nop
+//	jr	ra
+//	nop
 
 #if __mips_isa_rev >= 6
 	mfc0	t0, CP0_CONFIG, 5
@@ -219,6 +219,8 @@ wr_done:
 	/* Clear timer interrupt (CP0_COUNT cleared on branch to 'reset') */
 	mtc0	zero, CP0_COMPARE
 
+	serial_out '3'
+
 #ifdef CONFIG_MIPS_CACHE_DISABLE
 	/* Disable caches */
 	PTR_LA	t9, mips_cache_disable
@@ -231,6 +233,8 @@ wr_done:
 	jalr	t9
 	 nop
 #endif
+
+	serial_out '4'
 
 #ifdef CONFIG_MIPS_INIT_STACK_IN_SRAM
 #ifdef CONFIG_MIPS_SRAM_INIT
@@ -251,6 +255,8 @@ wr_done:
 # endif
 #endif
 
+	serial_out '5'
+
 #ifndef CONFIG_SKIP_LOWLEVEL_INIT
 # ifdef CONFIG_SYS_MIPS_CACHE_INIT_RAM_LOAD
 	/* Initialize any external memory */
@@ -259,11 +265,13 @@ wr_done:
 	 nop
 # endif
 #endif
+	serial_out '6'
 
 #ifdef CONFIG_MIPS_MACH_EARLY_INIT
 	bal	mips_mach_early_init
 	 nop
 #endif
+	serial_out '7'
 
 #ifdef CONFIG_MIPS_CACHE_SETUP
 	/* Initialize caches... */
@@ -271,6 +279,8 @@ wr_done:
 	jalr	t9
 	 nop
 #endif
+
+	serial_out '8'
 
 #ifndef CONFIG_SKIP_LOWLEVEL_INIT
 # ifndef CONFIG_SYS_MIPS_CACHE_INIT_RAM_LOAD
@@ -280,6 +290,8 @@ wr_done:
 	 nop
 # endif
 #endif
+
+	serial_out '9'
 
 #ifndef CONFIG_MIPS_INIT_STACK_IN_SRAM
 	/* Set up initial stack and global data */
@@ -293,10 +305,14 @@ wr_done:
 # endif
 #endif
 
+	serial_out 'a'
+
 	move	a0, zero		# a0 <-- boot_flags = 0
 	PTR_LA	t9, board_init_f
 
 	jr	t9
 	 move	ra, zero
+
+	serial_out 'b'
 
 	END(_start)

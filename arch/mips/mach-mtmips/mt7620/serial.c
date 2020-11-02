@@ -11,6 +11,8 @@
 
 void mtmips_spl_serial_init(void)
 {
+/* WIP-001 */
+	return;
 #ifdef CONFIG_SPL_SERIAL_SUPPORT
 	void __iomem *base = ioremap_nocache(SYSCTL_BASE, SYSCTL_SIZE);
 

@@ -951,13 +951,57 @@ static const init_fnc_t init_sequence_f[] = {
 	NULL,
 };
 
+inline void serial_out(int a0)
+{
+	volatile char *serial = (void *)0xB0000C00;
+	char tst;
+xxx:
+	tst = serial[0x1C];
+	tst &= 1<<5;
+	if(tst == 0) goto xxx;
+
+	serial[4] = a0;
+}
+
 void board_init_f(ulong boot_flags)
 {
+//WIP-002:
+	serial_out('C');
+	serial_out('C');
+	serial_out('C');
+	serial_out('C');
+	serial_out('C');
+	serial_out('C');
+	serial_out('C');
+	serial_out('C');
+	serial_out('C');
+	serial_out('C');
+	serial_out('C');
+	serial_out('C');
+	serial_out('C');
+	serial_out('C');
+	serial_out('C');
+	serial_out('C');
+	serial_out('C');
+	serial_out('C');
+	serial_out('C');
+	serial_out('C');
+	serial_out('C');
+	serial_out('C');
+	serial_out('C');
+	serial_out('C');
+	serial_out('C');
+
+
 	gd->flags = boot_flags;
 	gd->have_console = 0;
 
+	serial_out('1');
+
 	if (initcall_run_list(init_sequence_f))
 		hang();
+
+	serial_out('2');
 
 #if !defined(CONFIG_ARM) && !defined(CONFIG_SANDBOX) && \
 		!defined(CONFIG_EFI_APP) && !CONFIG_IS_ENABLED(X86_64) && \

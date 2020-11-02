@@ -15,8 +15,8 @@
 
 void __noreturn board_init_f(ulong dummy)
 {
+//WIP-003
 	spl_init();
-
 #ifdef CONFIG_SPL_SERIAL_SUPPORT
 	/*
 	 * mtmips_spl_serial_init() is useful if debug uart is enabled,

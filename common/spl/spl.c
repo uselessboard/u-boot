@@ -469,6 +469,7 @@ int spl_early_init(void)
 
 int spl_init(void)
 {
+//WIP-000
 	int ret;
 	bool setup_malloc = !(IS_ENABLED(CONFIG_SPL_STACK_R) &&
 			IS_ENABLED(CONFIG_SPL_SYS_MALLOC_SIMPLE));

@@ -79,6 +79,8 @@ static void _mtk_serial_setbrg(struct mtk_serial_priv *priv, int baud)
 	bool support_clk12m_baud115200;
 	u32 quot, samplecount, realbaud;
 
+	return;
+
 	if ((baud <= 115200) && (priv->clock == 12000000))
 		support_clk12m_baud115200 = true;
 	else
@@ -144,6 +146,9 @@ static void _mtk_serial_setbrg(struct mtk_serial_priv *priv, int baud)
 
 static int _mtk_serial_putc(struct mtk_serial_priv *priv, const char ch)
 {
+	_debug_uart_putc(ch);
+	return ch;
+// WIP-serial
 	if (!(readl(&priv->regs->lsr) & UART_LSR_THRE))
 		return -EAGAIN;
 
@@ -157,18 +162,23 @@ static int _mtk_serial_putc(struct mtk_serial_priv *priv, const char ch)
 
 static int _mtk_serial_getc(struct mtk_serial_priv *priv)
 {
-	if (!(readl(&priv->regs->lsr) & UART_LSR_DR))
+
+//	if (!(readl(priv->regs->lsr) & UART_LSR_DR))
+	if (!(readl(0xB0000C1C) & UART_LSR_DR))
 		return -EAGAIN;
 
-	return readl(&priv->regs->rbr);
+//	return readl(&priv->regs->rbr);
+	return readl(0xB0000C00);
 }
 
 static int _mtk_serial_pending(struct mtk_serial_priv *priv, bool input)
 {
 	if (input)
-		return (readl(&priv->regs->lsr) & UART_LSR_DR) ? 1 : 0;
+//		return (readl(&priv->regs->lsr) & UART_LSR_DR) ? 1 : 0;
+		return (readl(0xB0000C1C) & UART_LSR_DR) ? 1 : 0;
 	else
-		return (readl(&priv->regs->lsr) & UART_LSR_THRE) ? 0 : 1;
+//		return (readl(&priv->regs->lsr) & UART_LSR_THRE) ? 0 : 1;
+		return (readl(0xB0000C1C) & UART_LSR_THRE) ? 0 : 1;
 }
 
 #if defined(CONFIG_DM_SERIAL) && \
@@ -206,6 +216,7 @@ static int mtk_serial_pending(struct udevice *dev, bool input)
 static int mtk_serial_probe(struct udevice *dev)
 {
 	struct mtk_serial_priv *priv = dev_get_priv(dev);
+	return 0;
 
 	/* Disable interrupt */
 	writel(0, &priv->regs->ier);
@@ -433,6 +444,8 @@ static inline void _debug_uart_init(void)
 {
 	struct mtk_serial_priv priv;
 
+	return;
+
 	priv.regs = (void *) CONFIG_DEBUG_UART_BASE;
 	priv.clock = CONFIG_DEBUG_UART_CLOCK;
 
@@ -443,7 +456,21 @@ static inline void _debug_uart_init(void)
 	_mtk_serial_setbrg(&priv, CONFIG_BAUDRATE);
 }
 
-static inline void _debug_uart_putc(int ch)
+
+
+inline void _debug_uart_putc(int a0)
+{
+        volatile char *serial = (void *)0xB0000C00;
+        char tst;
+xxx:
+        tst = serial[0x1C];
+        tst &= 1<<5;
+        if(tst == 0) goto xxx;
+
+        serial[4] = a0;
+}
+
+static inline void wip_debug_uart_putc(int ch)
 {
 	struct mtk_serial_regs __iomem *regs =
 		(void *) CONFIG_DEBUG_UART_BASE;
