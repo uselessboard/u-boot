@@ -82,4 +82,5 @@ U_BOOT_DRIVER(mtmips_reset) = {
 	.probe = mtmips_reset_probe,
 	.priv_auto_alloc_size = sizeof(struct mtmips_reset_priv),
 	.ops = &mtmips_reset_ops,
+	.flags = DM_FLAG_PRE_RELOC,
 };
