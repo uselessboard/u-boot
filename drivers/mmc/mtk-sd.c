@@ -166,6 +166,8 @@
 
 #define DEFAULT_CD_DEBOUNCE		8
 
+#define SCLK_CYCLES_SHIFT		20
+
 #define CMD_INTS_MASK	\
 	(MSDC_INT_CMDRDY | MSDC_INT_RSPCRCERR | MSDC_INT_CMDTMO)
 
@@ -256,7 +258,6 @@ struct msdc_top_regs {
 
 struct msdc_compatible {
 	u8 clk_div_bits;
-	u8 sclk_cycle_shift;
 	bool pad_tune0;
 	bool async_fifo;
 	bool data_tune;
@@ -722,7 +723,7 @@ static int msdc_ops_send_cmd(struct udevice *dev, struct mmc_cmd *cmd,
 
 static void msdc_set_timeout(struct msdc_host *host, u32 ns, u32 clks)
 {
-	u32 timeout, clk_ns, shift;
+	u32 timeout, clk_ns, shift = SCLK_CYCLES_SHIFT;
 	u32 mode = 0;
 
 	host->timeout_ns = ns;
@@ -731,7 +732,6 @@ static void msdc_set_timeout(struct msdc_host *host, u32 ns, u32 clks)
 	if (host->sclk == 0) {
 		timeout = 0;
 	} else {
-		shift = host->dev_comp->sclk_cycle_shift;
 		clk_ns = 1000000000UL / host->sclk;
 		timeout = (ns + clk_ns - 1) / clk_ns + clks;
 		/* unit is 1048576 sclk cycles */
@@ -1529,7 +1529,7 @@ static int msdc_drv_probe(struct udevice *dev)
 
 	host->mmc = &plat->mmc;
 	host->timeout_ns = 100000000;
-	host->timeout_clks = 3 * (1 << host->dev_comp->sclk_cycle_shift);
+	host->timeout_clks = 3 * (1 << SCLK_CYCLES_SHIFT);
 
 #ifdef CONFIG_PINCTRL
 	pinctrl_select_state(dev, "default");
@@ -1613,7 +1613,6 @@ static const struct dm_mmc_ops msdc_ops = {
 
 static const struct msdc_compatible mt7620_compat = {
 	.clk_div_bits = 8,
-	.sclk_cycle_shift = 16,
 	.pad_tune0 = false,
 	.async_fifo = false,
 	.data_tune = false,
@@ -1633,7 +1632,6 @@ static const struct msdc_compatible mt7622_compat = {
 
 static const struct msdc_compatible mt7623_compat = {
 	.clk_div_bits = 12,
-	.sclk_cycle_shift = 20,
 	.pad_tune0 = true,
 	.async_fifo = true,
 	.data_tune = true,
@@ -1644,7 +1642,6 @@ static const struct msdc_compatible mt7623_compat = {
 
 static const struct msdc_compatible mt8512_compat = {
 	.clk_div_bits = 12,
-	.sclk_cycle_shift = 20,
 	.pad_tune0 = true,
 	.async_fifo = true,
 	.data_tune = true,
@@ -1654,7 +1651,6 @@ static const struct msdc_compatible mt8512_compat = {
 
 static const struct msdc_compatible mt8516_compat = {
 	.clk_div_bits = 12,
-	.sclk_cycle_shift = 20,
 	.pad_tune0 = true,
 	.async_fifo = true,
 	.data_tune = true,
@@ -1664,7 +1660,6 @@ static const struct msdc_compatible mt8516_compat = {
 
 static const struct msdc_compatible mt8183_compat = {
 	.clk_div_bits = 12,
-	.sclk_cycle_shift = 20,
 	.pad_tune0 = true,
 	.async_fifo = true,
 	.data_tune = true,
