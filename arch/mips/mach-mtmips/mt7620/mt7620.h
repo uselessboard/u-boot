@@ -16,6 +16,8 @@
 #define MEMCTL_SIZE			0x100
 #define UARTFULL_BASE			0x10000500
 #define UARTFULL_SIZE			0x100
+#define SPI_BASE			0x10000B00
+#define SPI_SIZE			0x100
 #define UARTLITE_BASE			0x10000c00
 #define UARTLITE_SIZE			0x100
 

@@ -12,7 +12,7 @@
 
 / {
 	compatible = "mediatek,mt7620-rfb", "mediatek,mt7620-soc";
-	model = "MediaTek MT7620 RFB (WS2120)";
+	model = "Useless Board MIPS32el";
 
 	aliases {
 		serial0 = &uartlite;

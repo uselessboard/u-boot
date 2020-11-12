@@ -38,9 +38,12 @@ static int do_spi_xfer(int bus, int cs)
 	struct spi_slave *slave;
 	int ret = 0;
 
+printf("%s: [%d]\n", __FILE__, __LINE__);
 #if CONFIG_IS_ENABLED(DM_SPI)
 	char name[30], *str;
 	struct udevice *dev;
+
+printf("%s: [%d]\n", __FILE__, __LINE__);
 
 	snprintf(name, sizeof(name), "generic_%d:%d", bus, cs);
 	str = strdup(name);
@@ -51,6 +54,7 @@ static int do_spi_xfer(int bus, int cs)
 	if (ret)
 		return ret;
 #else
+printf("%s: [%d]\n", __FILE__, __LINE__);
 	slave = spi_setup_slave(bus, cs, freq, mode);
 	if (!slave) {
 		printf("Invalid device %d:%d\n", bus, cs);
@@ -61,6 +65,17 @@ static int do_spi_xfer(int bus, int cs)
 	ret = spi_claim_bus(slave);
 	if (ret)
 		goto done;
+
+printf("%s: [%d]\n", __FILE__, __LINE__);
+/* dout/din 都是 static 数组，在编译的时候就分配了内存，
+   不可能指向 NULL...？ 
+而在驱动
+ 判断 din 不为空就ERROR
+
+*/
+printf("1111 cmd dout: %p\n", dout);
+printf("1111 cmd din: %p\n", din);
+
 	ret = spi_xfer(slave, bitlen, dout, din,
 		       SPI_XFER_BEGIN | SPI_XFER_END);
 #if !CONFIG_IS_ENABLED(DM_SPI)

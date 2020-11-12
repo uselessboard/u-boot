@@ -8,7 +8,9 @@
 #include <config.h>
 #include <asm/global_data.h>
 #include <linux/io.h>
+#include <linux/delay.h>
 #include "mt7620.h"
+
 
 DECLARE_GLOBAL_DATA_PTR;
 
@@ -184,10 +186,18 @@ ulong notrace get_tbclk(void)
 	return gd->arch.timer_freq;
 }
 
+#define SPIDATA0 0x0020
+
 void _machine_restart(void)
 {
-	void __iomem *sysc = ioremap_nocache(SYSCTL_BASE, SYSCTL_SIZE);
+	void __iomem *base; 
 
-	while (1)
-		writel(SYS_RST, sysc + SYSCTL_RSTCTL_REG);
+	base  = ioremap_nocache(SPI_BASE, SPI_SIZE);
+	writel(0x66, base + SPIDATA0);
+	mdelay(1);
+	writel(0x99, base + SPIDATA0);
+	mdelay(1);
+
+	base  = ioremap_nocache(SYSCTL_BASE, SYSCTL_SIZE);
+	writel(SYS_RST, base + SYSCTL_RSTCTL_REG);
 }

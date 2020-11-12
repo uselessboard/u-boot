@@ -199,6 +199,10 @@ static int mt7620_spi_xfer(struct udevice *dev, unsigned int bitlen,
 	 * This driver only supports half-duplex, so complain and bail out
 	 * upon full-duplex messages
 	 */
+printf("dout: %p\n", dout);
+printf("din: %p\n", din);
+
+
 	if (dout && din) {
 		dev_err(dev, "mt7620_spi: Only half-duplex is supported\n");
 		return -EIO;
